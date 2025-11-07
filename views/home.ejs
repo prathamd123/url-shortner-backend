@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URL Shortener</title>
+
+  <style>
+    /* 🌐 Basic Reset and Fonts */
+    body {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      background-color: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    /* 🔹 Header */
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      color: #007bff;
+      margin-top: 30px;
+      letter-spacing: 1px;
+    }
+
+    /* 🧾 Form Section */
+    form {
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    form label {
+      font-size: 1.1em;
+      font-weight: 500;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 40%;
+      padding: 10px;
+      font-size: 1em;
+      margin: 0 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* 🔗 Shortened URL Display */
+    .short-url {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+
+    .short-url a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .short-url a:hover {
+      text-decoration: underline;
+    }
+
+    /* 📊 Table Styling */
+    table {
+      width: 85%;
+      margin: 40px auto;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    thead {
+      background-color: #007bff;
+      color: white;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    thead th {
+      padding: 15px;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+    }
+
+    tbody td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      color: #555;
+      font-size: 15px;
+    }
+
+    tbody tr:hover {
+      background-color: #f2f7ff;
+      transition: background 0.3s;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* 📱 Responsive Table */
+    @media screen and (max-width: 768px) {
+      input[type="text"] {
+        width: 70%;
+      }
+
+      table {
+        width: 95%;
+      }
+
+      thead th, tbody td {
+        padding: 10px;
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🔗 URL Shortener</h1>
+
+  <!-- 🌐 URL Input Form -->
+  <form method="POST" action="/url">
+    <label for="url">Enter Your Original URL:</label>
+    <input type="text" name="url" id="url" placeholder="https://www.example.com" required />
+    <button type="submit">Generate</button>
+  </form>
+
+  <!-- 🔗 Show the shortened URL (if generated) -->
+  <% if (locals.id) { %>
+    <div class="short-url">
+      Shortened URL:
+      <a target="_blank" href="<%= locals.id %>">
+            <%= locals.id %>
+      </a>
+    </div>
+  <% } %>
+
+  <!-- 📋 Show All URLs Table -->
+  <% if (locals.urls && locals.urls.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>Short ID</th>
+          <th>Redirect URL</th>
+          <th>Clicks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% locals.urls.forEach((url, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td>
+              <a target="_blank" href="http://localhost:8001/url/<%= url.shortId %>">
+                 <%= url.shortId %>
+              </a>
+            </td>
+            <td>
+              <a target="_blank" href="<%= url.redirectUrl %>">
+                <%= url.redirectUrl %>
+              </a>
+            </td>
+            <td><%= url.visitHistory.length %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+
+</body>
+</html>

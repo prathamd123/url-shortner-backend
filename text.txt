@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: larger;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; font: 1em;">Url shortner</h1>
+    <form style="text-align: center;" method="POST" action="/url">
+        <label for="">Enter Your Original URL : </label>
+        <input type="text" name="url" placeholder="www.example.com">
+        <button type="submit">Generate</button>
+    </form>
+    
+    <!-- backend se jo data aata hai vo locals me store hota hai -->
+    <% if (locals.id) { %>
+     <p style="text-align: center;">Shortened URL: <a target="_blank" href="<%= locals.id %>"><%= locals.id %></a></p>
+    <% } %>
+
+
+    <% if (locals.urls) { %>
+     <table th border="1" style="width: 80%; margin: auto; text-align: center; border-collapse: collapse; margin-top: 30px;">
+        <thead>S.No.</thead>
+        <thead>ShortId</thead>
+        <thead>Redirect</thead>
+        <thead>Clicks</thead>
+        <tbody>
+            <% locals.urls.forEach((url, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><a target="_blank" href="http://localhost:8001/<%= url.shortId %>"><%= url.shortId %></a></td>
+                    <td><a target="_blank" href="<%= url.redirectUrl %>"><%= url.redirectUrl %></a></td>
+                    <td><%= url.visitHistory.length %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+     </table>
+    <% } %>
+    
+</body>
+</html>
