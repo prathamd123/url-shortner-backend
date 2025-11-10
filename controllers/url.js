@@ -10,7 +10,7 @@ async function HandleGenerateNewShortUrl(req, res) {
         redirectUrl: body.url,
         visitHistory: []
     });
-    return res.render('home',{id:`http://localhost:8001/url/${shortId}`});
+    return res.render('home',{id:`http://localhost:8001/url/${shortId} demo` });
     // return res.status(201).json({ id: shortId });
 }
 
