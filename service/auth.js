@@ -5,13 +5,16 @@ const secret = 'pratham$123@'
 
 
 function setUser(user){
-    // sessionIdToUserIdMap.set(id,user);
-    // const payload = { ...user };
-    return jwt.sign(user, secret);
+    return jwt.sign({
+        _id : user._id,
+        email: user.email,
+    }, secret);
 }
 
-function getUser(id){
-    return sessionIdToUserIdMap.get(id);
+function getUser(token){
+    // return sessionIdToUserIdMap.get(id);
+    if(!token) return null;
+    return jwt.verify(token,secret);
 } 
 
 module.exports = {

@@ -9,7 +9,7 @@ async function handleUserSignup(req, res) {
         return res.status(400).json({ error: 'Name, email, and password are required' });
     }
     await User.create({ name, email, password });
-    return res.status(201).render("/");
+    return res.redirect("/");
 }
 
 async function handleUserLogin(req, res) {
@@ -19,10 +19,10 @@ async function handleUserLogin(req, res) {
         return res.render("login",{error:"Invalid Credentials"});
     }
 
-    const sessionId = uuidv4();
-    setUser(sessionId, user);
-    res.cookie('uid', sessionId);
-
+    // const sessionId = uuidv4();
+    const token = setUser(user)
+    // setUser(sessionId, user);
+    res.cookie("uid", token,{httpOnly:true});
     return res.redirect("/");
 }
 
