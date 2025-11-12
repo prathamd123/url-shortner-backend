@@ -10,7 +10,7 @@ async function connectDB(url) {
         throw err;
     }
 }
-
+// Function to drop the legacy index 'shortUrl_1' from the 'urls' collection
 async function dropLegacyShortUrlIndex() {
     const connection = mongoose.connection;
     const db = connection.db;

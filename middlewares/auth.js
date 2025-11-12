@@ -4,24 +4,37 @@ async function restrictToLoggedInUsersOnly(req, res, next) {
     const userUid = req.cookies?.uid;
 
     if (!userUid) {
-        return res.redirect("login");
+        return res.redirect("/login");
     }
 
-    const user = getUser(userUid);
-
-    if (!user) {
-        return res.redirect("login");
+    try {
+        const user = getUser(userUid);
+        if (!user) {
+            return res.redirect("/login");
+        }
+        req.user = user;
+        next();
+    } catch (error) {
+        // JWT verification failed (invalid/expired token)
+        return res.redirect("/login");
     }
-
-    req.user = user;
-    next();
 }
 
 async function checkAuth(req,res,next) {
     const userUid = req.cookies?.uid;
-    const user = getUser(userUid);
+    
+    if (!userUid) {
+        req.user = null;
+        return next();
+    }
 
-    req.user = user;
+    try {
+        const user = getUser(userUid);
+        req.user = user;
+    } catch (error) {
+        // JWT verification failed (invalid/expired token)
+        req.user = null;
+    }
     next();
 }
 
