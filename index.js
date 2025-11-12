@@ -1,24 +1,35 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const urlRouter = require('./routes/url');
-const staticRoute = require('./routes/staticRouter');
+const cookieParser = require('cookie-parser');
+
+const {restrictToLoggedInUsersOnly,checkAuth} = require('./middlewares/auth')
+
 const connectDB = require('./connect');
 const port = 8001;
 const URL = require('./models/url');
 
+//routes
+const urlRouter = require('./routes/url');
+const staticRoute = require('./routes/staticRouter');
+const userRouter = require('./routes/user');
+
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieParser());
+
+
+app.use('/url',restrictToLoggedInUsersOnly,urlRouter);
+app.use('/',checkAuth,staticRoute);
+app.use('/user',checkAuth,userRouter);
+
 
 app.set('view engine','ejs');
 app.set('views',path.resolve('./views'));
 
 const url = 'mongodb://127.0.0.1:27017/shortUrl'
 connectDB(url)
-
-app.use('/url',urlRouter);
-app.use('/',staticRoute);
 
 
 // app.get('/test',async(req,res)=>{

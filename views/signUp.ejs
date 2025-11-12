@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <style>
+         body {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      background-color: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      text-align: center;
+    }
+    </style>
+</head>
+<body>
+    <h1>SignUp</h1>
+    <form method="post" action="/user">
+        <label>Full Name:</label>
+        <input type="text" name="name" placeholder="Enter your name" required /><br/><br/>
+        <label>Email:</label>
+        <input type="email" name="email" placeholder="Enter your Email" required /><br/><br/>
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter your Password" required /><br/><br/>
+        <button type="submit">SignUp</button>
+    </form>
+
+</body>
+</html>
